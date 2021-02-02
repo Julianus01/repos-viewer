@@ -43,7 +43,7 @@ const Input = styled.input`
   font-size: ${({ theme }) => theme.fontSize.button};
   flex: 1;
   outline: 0;
-  padding-left: ${({ paddingLeft }) => (paddingLeft ? '0.7rem' : '0')};
+  padding-left: ${({ paddingLeft }) => (paddingLeft ? '1rem' : '0')};
   color: ${({ theme }) => theme.color.text.body};
 
   ::placeholder {

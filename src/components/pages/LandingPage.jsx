@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 import { ArrowRight, Search } from 'react-feather'
-import { Button, Dots, Input } from '../../styles'
+import { Button, Dots, Input, Loader } from '../../styles'
 import theme from '../../theme/theme'
 
 const LandingPage = () => {
@@ -20,6 +20,7 @@ const LandingPage = () => {
           <WideInput leftIcon={<Search />} placeholder='Github username...' />
           <SearchButton>
             <ArrowRight />
+            {/* <Loader /> */}
           </SearchButton>
         </FormContainer>
 
