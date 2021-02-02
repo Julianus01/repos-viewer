@@ -5,21 +5,22 @@ import { userThunks } from 'state/ducks/userDuck'
 import styled from 'styled-components/macro'
 import { Loader } from 'styles'
 import UserNotFound from './user/UserNotFound'
+import UserProfileDetails from './user/UserProfileDetails'
+import UserReposList from './user/UserReposList'
 
 const UserPage = () => {
   const dispatch = useDispatch()
   const userData = useSelector((state) => state.user)
   const params = useParams()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [notFound, setNotFound] = useState(false)
-
-  console.log(userData)
 
   useEffect(() => {
     const get = async () => {
       try {
-        setLoading(true)
-        await dispatch(userThunks.getUserProfileAndRepos(params.username))
+        // setLoading(true)
+        // await dispatch(userThunks.getUserProfileAndRepos(params.username))
+        // setLoading(false)
       } catch (_) {
         setNotFound(true)
       }
@@ -33,7 +34,6 @@ const UserPage = () => {
   }
 
   if (loading) {
-    console.log('render loading')
     return (
       <LoadingContainer>
         <Loader />
@@ -41,8 +41,15 @@ const UserPage = () => {
     )
   }
 
-  console.log('render container')
-  return <Container></Container>
+  return (
+    <Container>
+      <Header>
+        <UserProfileDetails profile={userData.profile} />
+      </Header>
+
+      <UserReposList repos={userData.repos} />
+    </Container>
+  )
 }
 
 export default UserPage
@@ -52,6 +59,8 @@ const Container = styled.div`
   width: 100%;
   margin: 0 auto;
   padding: 0 2rem;
+  margin-top: 5rem;
+  padding-bottom: 20rem;
 `
 
 const LoadingContainer = styled.div`
@@ -62,4 +71,8 @@ const LoadingContainer = styled.div`
   margin-top: 20vh;
   display: flex;
   justify-content: center;
+`
+
+const Header = styled.header`
+  margin-bottom: 10rem;
 `

@@ -7,7 +7,7 @@ const getUserProfile = async (username) => {
     username: profile.login,
     name: profile.name,
     publicReposCount: profile.public_repos,
-    avatarUrl: profile.avatarUrl,
+    avatarUrl: profile.avatar_url,
   }
 }
 
