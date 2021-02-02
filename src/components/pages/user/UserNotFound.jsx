@@ -1,52 +1,26 @@
-import React, { useState } from 'react'
-import styled from 'styled-components/macro'
-import { ArrowRight, Search } from 'react-feather'
-import { Button, Dots, Input } from 'styles'
-import theme from 'theme/theme'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
+import styled from 'styled-components/macro'
+import { Button, Dots } from 'styles'
+import theme from 'theme/theme'
 
-const LandingPage = () => {
+const UserNotFound = ({ username }) => {
   const history = useHistory()
-  const [username, setUsername] = useState('')
 
-  const onInputChange = ({ target: { value } }) => {
-    setUsername(value)
-  }
-
-  const onEnterPressed = ({ key }) => {
-    if (username.length && key === 'Enter') {
-      search()
-    }
-  }
-
-  const search = () => {
-    history.push(`/${username.trim()}`)
+  const onBack = () => {
+    history.push(`/`)
   }
 
   return (
     <Container>
       <Content>
         <Title>
-          See
+          {username}
           <br />
-          the
-          <br />
-          <Grey>work of</Grey>
+          <Grey>doesn't exist</Grey>
         </Title>
 
-        <FormContainer>
-          <WideInput
-            value={username}
-            onChange={onInputChange}
-            onKeyDown={onEnterPressed}
-            leftIcon={<Search />}
-            placeholder='Github username...'
-          />
-
-          <SearchButton onClick={search} disabled={!username.length}>
-            <ArrowRight />
-          </SearchButton>
-        </FormContainer>
+        <BackButton onClick={onBack}>Back to home</BackButton>
 
         <BackgroundSquare />
         <FirstDots />
@@ -57,10 +31,13 @@ const LandingPage = () => {
   )
 }
 
-export default LandingPage
+export default UserNotFound
 
 const Container = styled.div`
+  max-width: 80rem;
   width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
   margin-top: 20vh;
   display: flex;
   justify-content: center;
@@ -70,30 +47,18 @@ const Content = styled.div`
   width: 100%;
   max-width: 55rem;
   position: relative;
+  padding-top: 10rem;
 `
 
 const Title = styled.h1`
-  font-size: ${({ theme }) => theme.fontSize.grande};
-  line-height: 1;
+  font-size: ${({ theme }) => theme.fontSize.bigTitle};
+  line-height: 1.2;
   color: ${({ theme }) => theme.color.text.title};
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
 `
 
 const Grey = styled.span`
   color: ${({ theme }) => theme.color.text.label};
-`
-
-const FormContainer = styled.div`
-  display: flex;
-`
-
-const WideInput = styled(Input)`
-  flex: 1;
-  margin-right: 2rem;
-`
-
-const SearchButton = styled(Button)`
-  width: 12rem;
 `
 
 const BackgroundSquare = styled.div`
@@ -127,4 +92,9 @@ const WideRectangle = styled.div`
   height: 0.5rem;
   background: ${({ theme }) => theme.color.text.body};
   box-shadow: -10px 10px 20px rgb(0, 0, 0, 0.4);
+`
+
+const BackButton = styled(Button)`
+  width: 22rem;
+  height: 4.4rem;
 `

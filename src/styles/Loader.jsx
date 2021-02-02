@@ -15,8 +15,8 @@ export default Loader
 
 const Container = styled.div`
   .spinner {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
 
     position: relative;
   }
@@ -26,7 +26,7 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background-color: white;
+    background-color: rgb(0, 122, 255);
     opacity: 0.6;
     position: absolute;
     top: 0;

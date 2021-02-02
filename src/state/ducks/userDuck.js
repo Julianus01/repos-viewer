@@ -17,24 +17,13 @@ const initialState = {
 
 // Reducer
 const reducer = createReducer(initialState)({
-  [TYPES.GET_USER_PROFILE_AND_REPOS_REQUEST]: (state) => ({
-    ...state,
-    loading: true,
-  }),
-
   [TYPES.GET_USER_PROFILE_AND_REPOS_SUCCESS]: (
     state,
     { payload: { profile, repos } }
   ) => ({
     ...state,
-    loading: false,
     profile,
     repos,
-  }),
-
-  [TYPES.GET_USER_PROFILE_AND_REPOS_ERROR]: (state) => ({
-    ...state,
-    loading: false,
   }),
 
   RESET: () => initialState,

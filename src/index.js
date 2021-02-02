@@ -4,16 +4,19 @@ import './index.css'
 import reportWebVitals from './reportWebVitals'
 import { ThemeProvider as StyledThemeProvider } from 'styled-components/macro'
 import theme from 'theme/theme'
-import LandingPage from 'components/pages/LandingPage'
 import 'utils/applyAxiosMiddlewares'
 import { Provider as ReduxProvider } from 'react-redux'
 import store from 'state/store'
+import { BrowserRouter as Router } from 'react-router-dom'
+import Routes from 'routes'
 
 const RootHTML = (
   <React.StrictMode>
     <ReduxProvider store={store}>
       <StyledThemeProvider theme={theme}>
-        <LandingPage />
+        <Router>
+          <Routes />
+        </Router>
       </StyledThemeProvider>
     </ReduxProvider>
   </React.StrictMode>
