@@ -1,10 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import { ArrowRight, Search } from 'react-feather'
-import { Button, Dots, Input, Loader } from '../../styles'
-import theme from '../../theme/theme'
+import { Button, Dots, Input, Loader } from 'styles'
+import theme from 'theme/theme'
+import GithubApi from 'api/GithubApi'
+import hooks from 'hooks'
 
 const LandingPage = () => {
+  const [error, showError, hideError] = hooks.useTemporaryMessage()
+  const [username, setUsername] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const onInputChange = ({ target: { value } }) => {
+    setUsername(value)
+
+    if (!value) {
+      hideError()
+    }
+  }
+
+  const onEnterPressed = ({ key }) => {
+    if (username.length && key === 'Enter') {
+      search()
+    }
+  }
+
+  const search = async () => {
+    try {
+      hideError()
+      setLoading(true)
+
+      const response = await GithubApi.getReposForUser(username.trim())
+      console.log(response)
+
+      setLoading(false)
+    } catch (error) {
+      console.log('error')
+      console.log(error)
+      showError(error.message)
+      setLoading(false)
+    }
+  }
+
   return (
     <Container>
       <Content>
@@ -17,12 +54,20 @@ const LandingPage = () => {
         </Title>
 
         <FormContainer>
-          <WideInput leftIcon={<Search />} placeholder='Github username...' />
-          <SearchButton>
-            <ArrowRight />
-            {/* <Loader /> */}
+          <WideInput
+            value={username}
+            onChange={onInputChange}
+            onKeyDown={onEnterPressed}
+            leftIcon={<Search />}
+            placeholder='Github username...'
+          />
+
+          <SearchButton onClick={search} disabled={loading || !username.length}>
+            {!loading ? <ArrowRight /> : <Loader />}
           </SearchButton>
         </FormContainer>
+
+        {error && <ErrorMessage>{error}</ErrorMessage>}
 
         <BackgroundSquare />
         <FirstDots />
@@ -84,7 +129,7 @@ const BackgroundSquare = styled.div`
 
 const FirstDots = styled(Dots)`
   position: absolute;
-  bottom: -20rem;
+  top: 42rem;
   left: 2rem;
   z-index: -2;
 `
@@ -97,10 +142,17 @@ const SecondDots = styled(Dots)`
 
 const WideRectangle = styled.div`
   position: absolute;
-  bottom: -17rem;
+  top: 46rem;
   right: 12rem;
   width: 18rem;
   height: 0.5rem;
   background: ${({ theme }) => theme.color.text.body};
   box-shadow: -10px 10px 20px rgb(0, 0, 0, 0.4);
+`
+
+const ErrorMessage = styled.p`
+  color: ${({ theme }) => theme.color.red};
+  font-size: ${({ theme }) => theme.fontSize.body};
+  margin-top: 3rem;
+  margin-left: 2rem;
 `

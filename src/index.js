@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import reportWebVitals from './reportWebVitals'
 import { ThemeProvider as StyledThemeProvider } from 'styled-components/macro'
-import theme from './theme/theme'
-import LandingPage from './components/pages/LandingPage'
+import theme from 'theme/theme'
+import LandingPage from 'components/pages/LandingPage'
+import 'utils/applyAxiosMiddlewares'
 
 ReactDOM.render(
   <React.StrictMode>

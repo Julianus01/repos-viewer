@@ -24,6 +24,8 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   transition: transform 0.15s ease-in-out;
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'all')};
+  opacity: ${({ disabled }) => (disabled ? '0.8' : '1')};
 
   :hover {
     transform: scale(1.05);
