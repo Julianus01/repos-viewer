@@ -6,15 +6,20 @@ import { ThemeProvider as StyledThemeProvider } from 'styled-components/macro'
 import theme from 'theme/theme'
 import LandingPage from 'components/pages/LandingPage'
 import 'utils/applyAxiosMiddlewares'
+import { Provider as ReduxProvider } from 'react-redux'
+import store from 'state/store'
 
-ReactDOM.render(
+const RootHTML = (
   <React.StrictMode>
-    <StyledThemeProvider theme={theme}>
-      <LandingPage />
-    </StyledThemeProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <ReduxProvider store={store}>
+      <StyledThemeProvider theme={theme}>
+        <LandingPage />
+      </StyledThemeProvider>
+    </ReduxProvider>
+  </React.StrictMode>
 )
+
+ReactDOM.render(RootHTML, document.getElementById('root'))
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

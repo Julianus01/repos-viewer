@@ -3,13 +3,15 @@ import styled from 'styled-components/macro'
 import { ArrowRight, Search } from 'react-feather'
 import { Button, Dots, Input, Loader } from 'styles'
 import theme from 'theme/theme'
-import GithubApi from 'api/GithubApi'
 import hooks from 'hooks'
+import { useDispatch, useSelector } from 'react-redux'
+import { userThunks } from 'state/ducks/userDuck'
 
 const LandingPage = () => {
+  const dispatch = useDispatch()
+  const loading = useSelector(({ user }) => user.loading)
   const [error, showError, hideError] = hooks.useTemporaryMessage()
   const [username, setUsername] = useState('')
-  const [loading, setLoading] = useState(false)
 
   const onInputChange = ({ target: { value } }) => {
     setUsername(value)
@@ -28,17 +30,9 @@ const LandingPage = () => {
   const search = async () => {
     try {
       hideError()
-      setLoading(true)
-
-      const response = await GithubApi.getReposForUser(username.trim())
-      console.log(response)
-
-      setLoading(false)
+      await dispatch(userThunks.getUserProfileAndRepos(username.trim()))
     } catch (error) {
-      console.log('error')
-      console.log(error)
       showError(error.message)
-      setLoading(false)
     }
   }
 
@@ -142,7 +136,7 @@ const SecondDots = styled(Dots)`
 
 const WideRectangle = styled.div`
   position: absolute;
-  top: 46rem;
+  top: 56rem;
   right: 12rem;
   width: 18rem;
   height: 0.5rem;
