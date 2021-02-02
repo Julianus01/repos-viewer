@@ -12,6 +12,7 @@ const THEME = {
   },
 
   fontSize: {
+    grande: '7rem',
     bigTitle: '5rem',
     title: '3rem',
     subtitle: '2rem',
@@ -30,6 +31,7 @@ const THEME = {
     accent: '0px 10px 20px rgba(0, 122, 255, 0.4)',
     light: '0 10px 20px rgba(0, 0, 0, 0.05)',
     medium: '0 10px 20px rgba(0, 0, 0, 0.14)',
+    bigInput: '0 10px 50px rgba(0, 0, 0, 0.14)',
     primary:
       '0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05)',
   },
