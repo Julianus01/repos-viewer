@@ -8,7 +8,7 @@ const applyBaseUrl = () => {
 
 const applyErrorHandler = () => {
   axios.interceptors.response.use(
-    (response) => response,
+    (response) => response.data,
     (error) => {
       const errorData = error?.response?.data
 
