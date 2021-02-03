@@ -12,7 +12,14 @@ const UserReposList = ({ activePage, numberOfPages, goToPage, repos }) => {
     numberOfPages,
   ])
 
+  const isFirstPageActive = activePage === 1
+  const isLastPageActive = activePage === numberOfPages
+
   const _goToPage = (page) => () => {
+    if (page === activePage) {
+      window.scrollTo(0, 0)
+    }
+
     goToPage(page)
   }
 
@@ -27,9 +34,11 @@ const UserReposList = ({ activePage, numberOfPages, goToPage, repos }) => {
 
       {numberOfPages > 1 && (
         <Footer>
-          <div>
-            <Button>Back</Button>
-          </div>
+          {!isFirstPageActive && (
+            <div>
+              <Button onClick={_goToPage(activePage - 1)}>Back</Button>
+            </div>
+          )}
 
           <PagesContainer>
             {pages.map((page) => (
@@ -43,9 +52,11 @@ const UserReposList = ({ activePage, numberOfPages, goToPage, repos }) => {
             ))}
           </PagesContainer>
 
-          <div>
-            <Button>Next</Button>
-          </div>
+          {!isLastPageActive && (
+            <div>
+              <Button onClick={_goToPage(activePage + 1)}>Next</Button>
+            </div>
+          )}
         </Footer>
       )}
     </Container>
@@ -85,6 +96,9 @@ const Item = styled.div`
   cursor: pointer;
   color: ${({ theme, active }) =>
     active ? theme.color.accent : theme.color.text.body};
+
+  border-color: ${({ theme, active }) =>
+    active ? theme.color.accent : theme.color.border};
 
   :hover {
     box-shadow: ${({ theme }) => theme.shadow.medium};
