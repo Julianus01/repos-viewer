@@ -225,8 +225,14 @@ const REPOS = [
 
 const wait = async (time) => new Promise((resolve) => setTimeout(resolve, time))
 
+// I've introduced this so loading screen can be visible and induce loading time
+const apiCallWithFakeMinimumLoading = async (promise) => {
+  const [response] = await Promise.all([promise, wait(1000)])
+  return response
+}
+
 const getUserProfile = async (username) => {
-  await wait(1000)
+  await apiCallWithFakeMinimumLoading(wait(100))
   return PROFILE
   // const profile = await axios.get(`/users/${username}`)
 
@@ -240,9 +246,11 @@ const getUserProfile = async (username) => {
 }
 
 const getReposForUser = async (username, page = 1) => {
-  await wait(1000)
+  await apiCallWithFakeMinimumLoading(wait(100))
   return REPOS
-  // const repos = await axios.get(`/users/${username}/repos?per_page=${CONSTANTS.PAGE_SIZE}&page=${page}`)
+  // const repos = await axios.get(
+  //   `/users/${username}/repos?per_page=${CONSTANTS.PAGE_SIZE}&page=${page}`
+  // )
 
   // return repos.map((repo) => ({
   //   id: repo.id,

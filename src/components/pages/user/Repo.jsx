@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
-const Repo = ({ index, repo }) => {
+const Repo = ({ number, repo }) => {
   const viewRepo = () => {
     window.open(repo.htmlUrl, '_blank')
   }
@@ -9,7 +9,7 @@ const Repo = ({ index, repo }) => {
   return (
     <RepoContainer onClick={viewRepo}>
       <RepoName>
-        {index + 1} {repo.name}
+        {number + 1} {repo.name}
       </RepoName>
     </RepoContainer>
   )

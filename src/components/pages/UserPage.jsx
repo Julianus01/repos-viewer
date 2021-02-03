@@ -1,9 +1,11 @@
 import hooks from 'hooks'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, useParams } from 'react-router-dom'
+import { Redirect, useHistory, useParams } from 'react-router-dom'
 import { userThunks } from 'state/ducks/userDuck'
 import styled from 'styled-components/macro'
+import { Loader } from 'styles'
+import { CONSTANTS } from 'utils/Constants'
 import LoadingPage from './LoadingPage'
 import UserNotFound from './user/UserNotFound'
 import UserProfileDetails from './user/UserProfileDetails'
@@ -19,11 +21,16 @@ const UserPage = () => {
   const [notFound, setNotFound] = useState(false)
   const { page } = hooks.useQueryParams()
 
+  const numberOfPages = useMemo(
+    () => Math.ceil(userData?.profile?.publicReposCount / CONSTANTS.PAGE_SIZE),
+    [userData?.profile?.publicReposCount]
+  )
+
   useEffect(() => {
     const getUserProfileAndRepos = async () => {
       try {
         setLoading(true)
-        await dispatch(userThunks.getUserProfileAndRepos(params.username))
+        await dispatch(userThunks.getUserProfileAndRepos(params.username, page))
 
         if (isMounted()) {
           setLoading(false)
@@ -36,18 +43,28 @@ const UserPage = () => {
     }
 
     getUserProfileAndRepos()
-  }, [dispatch, params.username, isMounted])
+  }, [dispatch, params.username, page, isMounted])
 
-  if (!page || !Number(page)) {
-    history.replace(`/${params.username}?page=1`)
-    return null
+  const goToPage = useCallback(
+    (page) => {
+      history.replace(`/${params.username}?page=${page}`)
+    },
+    [params.username, history]
+  )
+
+  if (!page || page < 1) {
+    return <Redirect to={`/${params.username}?page=1`} />
+  }
+
+  if (page > numberOfPages) {
+    return <Redirect to={`/${params.username}?page=${numberOfPages}`} />
   }
 
   if (notFound) {
     return <UserNotFound username={params.username} />
   }
 
-  if (loading) {
+  if (loading && !userData.profile) {
     return <LoadingPage />
   }
 
@@ -57,10 +74,18 @@ const UserPage = () => {
         <UserProfileDetails profile={userData.profile} />
       </Header>
 
-      <UserReposList
-        publicReposCount={userData.profile.publicReposCount}
-        repos={userData.repos}
-      />
+      {loading ? (
+        <LoadingContainer>
+          <Loader />
+        </LoadingContainer>
+      ) : (
+        <UserReposList
+          publicReposCount={userData.profile.publicReposCount}
+          repos={userData.repos}
+          activePage={page}
+          goToPage={goToPage}
+        />
+      )}
     </Container>
   )
 }
@@ -78,4 +103,10 @@ const Container = styled.div`
 
 const Header = styled.header`
   margin-bottom: 10rem;
+`
+
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20rem;
 `

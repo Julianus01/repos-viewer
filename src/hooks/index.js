@@ -33,7 +33,7 @@ const useQueryParams = () => {
   const params = new URLSearchParams(location.search)
 
   return {
-    page: params.get('page'),
+    page: Number(params.get('page')),
   }
 }
 

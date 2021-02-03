@@ -40,13 +40,13 @@ const reducer = createReducer(initialState)({
 
 // Thunks
 const thunks = {
-  getUserProfileAndRepos: (username) => async (dispatch) => {
+  getUserProfileAndRepos: (username, page = 1) => async (dispatch) => {
     try {
       dispatch({ type: TYPES.GET_USER_PROFILE_AND_REPOS_REQUEST })
 
       const [profile, repos] = await Promise.all([
         GithubApi.getUserProfile(username),
-        GithubApi.getReposForUser(username),
+        GithubApi.getReposForUser(username, page),
       ])
 
       dispatch({
@@ -61,10 +61,10 @@ const thunks = {
     }
   },
 
-  getRepos: (username) => async (dispatch) => {
+  getRepos: (username, page = 1) => async (dispatch) => {
     try {
       dispatch({ type: TYPES.GET_REPOS_REQUEST })
-      const repos = await GithubApi.getReposForUser(username)
+      const repos = await GithubApi.getReposForUser(username, page)
 
       dispatch({ type: TYPES.GET_REPOS_SUCCESS, payload: { repos } })
       return repos

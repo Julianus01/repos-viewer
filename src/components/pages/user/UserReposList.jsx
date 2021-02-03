@@ -10,7 +10,7 @@ const generateConsecutiveNumberArray = (limit) => {
 
 const usePageData = (reposCount) => {
   const numberOfPages = useMemo(
-    () => Math.floor(reposCount / CONSTANTS.PAGE_SIZE),
+    () => Math.ceil(reposCount / CONSTANTS.PAGE_SIZE),
     [reposCount]
   )
 
@@ -21,16 +21,21 @@ const usePageData = (reposCount) => {
   return { numberOfPages, pages }
 }
 
-const UserReposList = ({ publicReposCount, repos }) => {
+const UserReposList = ({ activePage, goToPage, publicReposCount, repos }) => {
   const { numberOfPages, pages } = usePageData(publicReposCount)
+
+  const _goToPage = (page) => () => {
+    goToPage(page)
+  }
 
   return (
     <Container>
       <Title>Repos</Title>
 
-      {repos.map((repo, index) => (
-        <Repo key={repo.id} index={index} repo={repo} />
-      ))}
+      {repos.map((repo, index) => {
+        const number = activePage * 10 - 10 + index
+        return <Repo key={repo.id} number={number} repo={repo} />
+      })}
 
       {numberOfPages > 1 && (
         <Footer>
@@ -40,7 +45,13 @@ const UserReposList = ({ publicReposCount, repos }) => {
 
           <PagesContainer>
             {pages.map((page) => (
-              <Item key={page}>{page}</Item>
+              <Item
+                onClick={_goToPage(page)}
+                active={page === activePage}
+                key={page}
+              >
+                {page}
+              </Item>
             ))}
           </PagesContainer>
 
@@ -84,7 +95,8 @@ const Item = styled.div`
   justify-content: center;
   transition: box-shadow 0.1s ease-in-out, color 0.1s ease-in-out;
   cursor: pointer;
-  color: ${({ theme }) => theme.color.text.body};
+  color: ${({ theme, active }) =>
+    active ? theme.color.accent : theme.color.text.body};
 
   :hover {
     box-shadow: ${({ theme }) => theme.shadow.medium};
