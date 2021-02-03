@@ -31,3 +31,7 @@ In order to see and execute written tests, execute the following command
 - [React Use](https://github.com/streamich/react-use) is a collection of day to day hooks that make life better. From simple things like useClickAway and useWindowSize, to more edge case hooks like useIsomorphicLayoutEffect and useCustomCompareEffect.
 - [React Router Dom](https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom), your basic routing library which does the job beautifully
 - [Cypress](https://github.com/cypress-io/cypress) for End to End testing. Very nice tool.
+
+## Rate limit
+
+Project is using [github's api](https://developer.github.com/v3/repos/#list-user-repositories) in order to function. Github is imposing rate limits, meaning the project cannot run as many http requests towards github as it wants. Currently the rate limit for an unauthorized ip is **60 tries** per hour. If for any reason while running the project or cruising around on the demo, you get the **Not Found** page of a user which was previously working, it is because the rate limit has been hit and untill the hour resets itself, there are no more free tries.
