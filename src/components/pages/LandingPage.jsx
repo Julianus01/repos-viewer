@@ -36,6 +36,7 @@ const LandingPage = () => {
 
         <FormContainer>
           <WideInput
+            id='username-input'
             value={username}
             onChange={onInputChange}
             onKeyDown={onEnterPressed}
@@ -44,6 +45,7 @@ const LandingPage = () => {
           />
 
           <SearchButton
+            id='search-button'
             onClick={search}
             disabled={!username.length}
             rightIcon={<ArrowRight size={16} />}

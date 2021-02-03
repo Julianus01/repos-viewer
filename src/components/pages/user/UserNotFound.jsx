@@ -20,7 +20,9 @@ const UserNotFound = ({ username }) => {
           <Grey>doesn't exist</Grey>
         </Title>
 
-        <BackButton onClick={onBack}>Back to home</BackButton>
+        <BackButton id='back-home-button' onClick={onBack}>
+          Back to home
+        </BackButton>
 
         <BackgroundSquare />
         <FirstDots />

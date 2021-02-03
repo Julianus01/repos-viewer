@@ -1,24 +1,16 @@
 import React from 'react'
 import { ArrowLeftCircle, Link } from 'react-feather'
-import { useHistory } from 'react-router-dom'
-import styled from 'styled-components'
-import { Button } from 'styles'
+import styled from 'styled-components/macro'
+import { ButtonLink } from 'styles'
 
 const UserProfileDetails = ({ profile }) => {
-  const history = useHistory()
   const displayName = profile.name ? profile.name : profile.username
-
-  const onReset = () => {
-    history.push(`/`)
-  }
-
-  const viewProfile = () => {
-    window.open(profile.htmlUrl, '_blank')
-  }
 
   return (
     <Container>
-      <BackButton onClick={onReset} />
+      <a id='reset-link' href='/'>
+        <BackButton />
+      </a>
 
       <Content>
         <Rectangle />
@@ -36,9 +28,14 @@ const UserProfileDetails = ({ profile }) => {
         </DetailsContainer>
 
         <ActionsContainer>
-          <Button onClick={viewProfile} rightIcon={<Link size={16} />}>
+          <ButtonLink
+            id='profile-link'
+            target='_blank'
+            href={profile.htmlUrl}
+            rightIcon={<Link size={16} />}
+          >
             View profile
-          </Button>
+          </ButtonLink>
         </ActionsContainer>
       </Content>
     </Container>

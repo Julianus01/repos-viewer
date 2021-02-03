@@ -31,25 +31,33 @@ const UserReposList = ({ activePage, numberOfPages, goToPage, repos }) => {
     <Container>
       <Title>Repos</Title>
 
-      {repos.map((repo, index) => {
-        const orderNumber = activePage * 10 - 10 + index
-        return <Repo key={repo.id} orderNumber={orderNumber} repo={repo} />
-      })}
+      <ReposContainer id='repos-container'>
+        {repos.map((repo, index) => {
+          const orderNumber = activePage * 10 - 10 + index
+          return <Repo key={repo.id} orderNumber={orderNumber} repo={repo} />
+        })}
+      </ReposContainer>
 
       {numberOfPages > 1 && (
         <Footer>
           {!isFirstPageActive && (
             <ButtonContainer marginRight={20}>
-              <Button onClick={_goToPage(activePage - 1)}>Back</Button>
+              <Button
+                id='previous-page-button'
+                onClick={_goToPage(activePage - 1)}
+              >
+                Back
+              </Button>
             </ButtonContainer>
           )}
 
           <PagesContainer>
             {pages.map((page) => (
               <Item
+                id={`page-${page}`}
+                key={page}
                 onClick={_goToPage(page)}
                 active={page === activePage}
-                key={page}
               >
                 {page}
               </Item>
@@ -58,7 +66,9 @@ const UserReposList = ({ activePage, numberOfPages, goToPage, repos }) => {
 
           {!isLastPageActive && (
             <ButtonContainer marginLeft={20}>
-              <Button onClick={_goToPage(activePage + 1)}>Next</Button>
+              <Button id='next-page-button' onClick={_goToPage(activePage + 1)}>
+                Next
+              </Button>
             </ButtonContainer>
           )}
         </Footer>
@@ -70,6 +80,8 @@ const UserReposList = ({ activePage, numberOfPages, goToPage, repos }) => {
 export default UserReposList
 
 const Container = styled.div``
+
+const ReposContainer = styled.div``
 
 const Title = styled.h1`
   font-size: ${({ theme }) => theme.fontSize.subtitle};

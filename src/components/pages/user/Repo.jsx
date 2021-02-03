@@ -8,12 +8,8 @@ const kFormatter = (num) =>
     : Math.sign(num) * Math.abs(num)
 
 const Repo = ({ orderNumber, repo }) => {
-  const viewRepo = () => {
-    window.open(repo.htmlUrl, '_blank')
-  }
-
   return (
-    <RepoContainer onClick={viewRepo}>
+    <RepoContainerLink href={repo.htmlUrl} target='_blank'>
       <RepoName>
         {orderNumber + 1} - {repo.name}
       </RepoName>
@@ -29,13 +25,13 @@ const Repo = ({ orderNumber, repo }) => {
           <StyledGitBranch size={16} />
         </InfoContainer>
       </DetailsContainer>
-    </RepoContainer>
+    </RepoContainerLink>
   )
 }
 
 export default Repo
 
-const RepoContainer = styled.div`
+const RepoContainerLink = styled.a`
   padding: 2rem 3rem;
   background: ${({ theme }) => theme.color.hover};
   border-radius: ${({ theme }) => theme.borderRadius.small};
@@ -43,10 +39,8 @@ const RepoContainer = styled.div`
   border: 1px solid transparent;
   cursor: pointer;
   display: flex;
-
-  &:not(:last-child) {
-    margin-bottom: 2rem;
-  }
+  text-decoration: none;
+  margin-bottom: 2rem;
 
   :hover {
     box-shadow: ${({ theme }) => theme.shadow.light};
