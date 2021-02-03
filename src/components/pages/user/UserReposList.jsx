@@ -3,12 +3,12 @@ import styled from 'styled-components/macro'
 import { Button } from 'styles'
 import Repo from './Repo'
 
-const generateConsecutiveNumberArray = (limit) => {
+const generateConsecutiveNumbersArray = (limit) => {
   return [...Array(limit).keys()].map((value) => value + 1)
 }
 
 const UserReposList = ({ activePage, numberOfPages, goToPage, repos }) => {
-  const pages = useMemo(() => generateConsecutiveNumberArray(numberOfPages), [
+  const pages = useMemo(() => generateConsecutiveNumbersArray(numberOfPages), [
     numberOfPages,
   ])
 
@@ -39,9 +39,9 @@ const UserReposList = ({ activePage, numberOfPages, goToPage, repos }) => {
       {numberOfPages > 1 && (
         <Footer>
           {!isFirstPageActive && (
-            <div>
+            <ButtonContainer marginRight={20}>
               <Button onClick={_goToPage(activePage - 1)}>Back</Button>
-            </div>
+            </ButtonContainer>
           )}
 
           <PagesContainer>
@@ -57,9 +57,9 @@ const UserReposList = ({ activePage, numberOfPages, goToPage, repos }) => {
           </PagesContainer>
 
           {!isLastPageActive && (
-            <div>
+            <ButtonContainer marginLeft={20}>
               <Button onClick={_goToPage(activePage + 1)}>Next</Button>
-            </div>
+            </ButtonContainer>
           )}
         </Footer>
       )}
@@ -87,7 +87,12 @@ const PagesContainer = styled.div`
   flex: 1;
   grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
   grid-auto-rows: 40px;
-  margin: 0 2rem;
+`
+
+const ButtonContainer = styled.div`
+  margin-left: ${({ marginLeft }) => (marginLeft ? `${marginLeft}px` : '0')};
+  margin-right: ${({ marginRight }) =>
+    marginRight ? `${marginRight}px` : '0'};
 `
 
 const Item = styled.div`
