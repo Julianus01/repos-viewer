@@ -19,7 +19,7 @@ const Button = styled.button`
   border: 0;
   color: white;
   box-shadow: ${({ theme }) => theme.shadow.accent};
-  padding: 1rem 2rem;
+  padding: 1rem 3rem;
   display: flex;
   justify-content: center;
   align-items: center;

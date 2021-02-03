@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 const useTemporaryMessage = (time = 5000) => {
@@ -37,24 +37,8 @@ const useQueryParams = () => {
   }
 }
 
-const useMountedState = () => {
-  const mountedRef = useRef(false)
-  const get = useCallback(() => mountedRef.current, [])
-
-  useEffect(() => {
-    mountedRef.current = true
-
-    return () => {
-      mountedRef.current = false
-    }
-  })
-
-  return get
-}
-
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   useTemporaryMessage,
   useQueryParams,
-  useMountedState,
 }

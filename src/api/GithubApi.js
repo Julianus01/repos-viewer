@@ -234,7 +234,9 @@ const apiCallWithFakeMinimumLoading = async (promise) => {
 const getUserProfile = async (username) => {
   await apiCallWithFakeMinimumLoading(wait(100))
   return PROFILE
-  // const profile = await axios.get(`/users/${username}`)
+  // const profile = await apiCallWithFakeMinimumLoading(
+  //   axios.get(`/users/${username}`)
+  // )
 
   // return {
   //   username: profile.login,
@@ -248,8 +250,10 @@ const getUserProfile = async (username) => {
 const getReposForUser = async (username, page = 1) => {
   await apiCallWithFakeMinimumLoading(wait(100))
   return REPOS
-  // const repos = await axios.get(
-  //   `/users/${username}/repos?per_page=${CONSTANTS.PAGE_SIZE}&page=${page}`
+  // const repos = await apiCallWithFakeMinimumLoading(
+  //   axios.get(
+  //     `/users/${username}/repos?per_page=${CONSTANTS.PAGE_SIZE}&page=${page}`
+  //   )
   // )
 
   // return repos.map((repo) => ({

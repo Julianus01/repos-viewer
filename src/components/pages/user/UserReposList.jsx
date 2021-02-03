@@ -1,28 +1,16 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components/macro'
 import { Button } from 'styles'
-import { CONSTANTS } from 'utils/Constants'
 import Repo from './Repo'
 
 const generateConsecutiveNumberArray = (limit) => {
   return [...Array(limit).keys()].map((value) => value + 1)
 }
 
-const usePageData = (reposCount) => {
-  const numberOfPages = useMemo(
-    () => Math.ceil(reposCount / CONSTANTS.PAGE_SIZE),
-    [reposCount]
-  )
-
+const UserReposList = ({ activePage, numberOfPages, goToPage, repos }) => {
   const pages = useMemo(() => generateConsecutiveNumberArray(numberOfPages), [
     numberOfPages,
   ])
-
-  return { numberOfPages, pages }
-}
-
-const UserReposList = ({ activePage, goToPage, publicReposCount, repos }) => {
-  const { numberOfPages, pages } = usePageData(publicReposCount)
 
   const _goToPage = (page) => () => {
     goToPage(page)

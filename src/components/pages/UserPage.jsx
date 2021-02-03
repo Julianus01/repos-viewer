@@ -1,7 +1,8 @@
 import hooks from 'hooks'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect, useHistory, useParams } from 'react-router-dom'
+import { useEffectOnce, useUpdateEffect } from 'react-use'
 import { userThunks } from 'state/ducks/userDuck'
 import styled from 'styled-components/macro'
 import { Loader } from 'styles'
@@ -11,13 +12,12 @@ import UserNotFound from './user/UserNotFound'
 import UserProfileDetails from './user/UserProfileDetails'
 import UserReposList from './user/UserReposList'
 
-const UserPage = () => {
-  const history = useHistory()
+const useData = () => {
   const dispatch = useDispatch()
-  const isMounted = hooks.useMountedState()
   const userData = useSelector((state) => state.user)
   const params = useParams()
-  const [loading, setLoading] = useState(true)
+  const [profileLoading, setProfileLoading] = useState(true)
+  const [reposLoading, setReposLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
   const { page } = hooks.useQueryParams()
 
@@ -26,24 +26,71 @@ const UserPage = () => {
     [userData?.profile?.publicReposCount]
   )
 
-  useEffect(() => {
+  // Runs on first mount and fetches both
+  useEffectOnce(() => {
     const getUserProfileAndRepos = async () => {
       try {
-        setLoading(true)
+        setProfileLoading(true)
+        setReposLoading(true)
         await dispatch(userThunks.getUserProfileAndRepos(params.username, page))
 
-        if (isMounted()) {
-          setLoading(false)
-        }
+        setProfileLoading(false)
+        setReposLoading(false)
       } catch (_) {
-        if (isMounted()) {
-          setNotFound(true)
-        }
+        setNotFound(true)
       }
     }
 
     getUserProfileAndRepos()
-  }, [dispatch, params.username, page, isMounted])
+  })
+
+  // Runs only on updates, so it refetches profile only if username changes
+  useUpdateEffect(() => {
+    const getProfile = async () => {
+      try {
+        setProfileLoading(true)
+        await dispatch(userThunks.getProfile(params.username))
+        setProfileLoading(false)
+      } catch (error) {
+        setNotFound(true)
+      }
+    }
+
+    getProfile()
+  }, [dispatch, params.username])
+
+  // Runs only on updates, so it refetches profile only if username or page changes
+  useUpdateEffect(() => {
+    const getRepos = async () => {
+      setReposLoading(true)
+      await dispatch(userThunks.getRepos(params.username, page))
+      setReposLoading(false)
+    }
+
+    getRepos()
+  }, [dispatch, page, params.username])
+
+  return {
+    userData,
+    profileLoading,
+    reposLoading,
+    notFound,
+    numberOfPages,
+    activePage: page,
+  }
+}
+
+const UserPage = () => {
+  const history = useHistory()
+  const params = useParams()
+  const {
+    userData,
+    profileLoading,
+    reposLoading,
+    notFound,
+    numberOfPages,
+    activePage,
+  } = useData()
 
   const goToPage = useCallback(
     (page) => {
@@ -52,11 +99,11 @@ const UserPage = () => {
     [params.username, history]
   )
 
-  if (!page || page < 1) {
+  if (!activePage || activePage < 1) {
     return <Redirect to={`/${params.username}?page=1`} />
   }
 
-  if (page > numberOfPages) {
+  if (activePage > numberOfPages) {
     return <Redirect to={`/${params.username}?page=${numberOfPages}`} />
   }
 
@@ -64,7 +111,7 @@ const UserPage = () => {
     return <UserNotFound username={params.username} />
   }
 
-  if (loading && !userData.profile) {
+  if (profileLoading) {
     return <LoadingPage />
   }
 
@@ -74,15 +121,15 @@ const UserPage = () => {
         <UserProfileDetails profile={userData.profile} />
       </Header>
 
-      {loading ? (
+      {reposLoading ? (
         <LoadingContainer>
           <Loader />
         </LoadingContainer>
       ) : (
         <UserReposList
-          publicReposCount={userData.profile.publicReposCount}
           repos={userData.repos}
-          activePage={page}
+          activePage={activePage}
+          numberOfPages={numberOfPages}
           goToPage={goToPage}
         />
       )}

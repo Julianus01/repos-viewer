@@ -12,6 +12,10 @@ const TYPES = {
   GET_REPOS_REQUEST: '[user] GET_REPOS / REQUEST',
   GET_REPOS_SUCCESS: '[user] GET_REPOS / SUCCESS',
   GET_REPOS_ERROR: '[user] GET_REPOS / ERROR',
+
+  GET_PROFILE_REQUEST: '[user] GET_PROFILE / REQUEST',
+  GET_PROFILE_SUCCESS: '[user] GET_PROFILE / SUCCESS',
+  GET_PROFILE_ERROR: '[user] GET_PROFILE / ERROR',
 }
 
 const initialState = {
@@ -33,6 +37,11 @@ const reducer = createReducer(initialState)({
   [TYPES.GET_REPOS_SUCCESS]: (state, { payload: { repos } }) => ({
     ...state,
     repos,
+  }),
+
+  [TYPES.GET_PROFILE_SUCCESS]: (state, { payload: { profile } }) => ({
+    ...state,
+    profile,
   }),
 
   RESET: () => initialState,
@@ -70,6 +79,19 @@ const thunks = {
       return repos
     } catch (error) {
       dispatch({ type: TYPES.GET_REPOS_ERROR })
+      throw error
+    }
+  },
+
+  getProfile: (username) => async (dispatch) => {
+    try {
+      dispatch({ type: TYPES.GET_PROFILE_REQUEST })
+      const profile = await GithubApi.getUserProfile(username)
+
+      dispatch({ type: TYPES.GET_PROFILE_SUCCESS, payload: { profile } })
+      return profile
+    } catch (error) {
+      dispatch({ type: TYPES.GET_PROFILE_ERROR })
       throw error
     }
   },
