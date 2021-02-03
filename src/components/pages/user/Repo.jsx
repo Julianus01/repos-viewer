@@ -15,7 +15,7 @@ const Repo = ({ orderNumber, repo }) => {
   return (
     <RepoContainer onClick={viewRepo}>
       <RepoName>
-        {orderNumber + 1} {repo.name}
+        {orderNumber + 1} - {repo.name}
       </RepoName>
 
       <DetailsContainer>

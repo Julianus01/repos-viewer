@@ -232,37 +232,37 @@ const apiCallWithFakeMinimumLoading = async (promise) => {
 }
 
 const getUserProfile = async (username) => {
-  await apiCallWithFakeMinimumLoading(wait(100))
-  return PROFILE
-  // const profile = await apiCallWithFakeMinimumLoading(
-  //   axios.get(`/users/${username}`)
-  // )
+  // await apiCallWithFakeMinimumLoading(wait(100))
+  // return PROFILE
+  const profile = await apiCallWithFakeMinimumLoading(
+    axios.get(`/users/${username}`)
+  )
 
-  // return {
-  //   username: profile.login,
-  //   name: profile.name,
-  //   htmlUrl: profile.html_url,
-  //   publicReposCount: profile.public_repos,
-  //   avatarUrl: profile.avatar_url,
-  // }
+  return {
+    username: profile.login,
+    name: profile.name,
+    htmlUrl: profile.html_url,
+    publicReposCount: profile.public_repos,
+    avatarUrl: profile.avatar_url,
+  }
 }
 
 const getReposForUser = async (username, page = 1) => {
-  await apiCallWithFakeMinimumLoading(wait(100))
-  return REPOS
-  // const repos = await apiCallWithFakeMinimumLoading(
-  //   axios.get(
-  //     `/users/${username}/repos?per_page=${CONSTANTS.PAGE_SIZE}&page=${page}`
-  //   )
-  // )
+  // await apiCallWithFakeMinimumLoading(wait(100))
+  // return REPOS
+  const repos = await apiCallWithFakeMinimumLoading(
+    axios.get(
+      `/users/${username}/repos?per_page=${CONSTANTS.PAGE_SIZE}&page=${page}`
+    )
+  )
 
-  // return repos.map((repo) => ({
-  //   id: repo.id,
-  //   name: repo.name,
-  //   forks_count: repo.forks_count,
-  //   stargazers_count: repo.stargazers_count,
-  //   htmlUrl: repo.html_url,
-  // }))
+  return repos.map((repo) => ({
+    id: repo.id,
+    name: repo.name,
+    forks_count: repo.forks_count,
+    stargazers_count: repo.stargazers_count,
+    htmlUrl: repo.html_url,
+  }))
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

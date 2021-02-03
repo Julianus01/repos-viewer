@@ -103,7 +103,7 @@ const UserPage = () => {
     return <Redirect to={`/${params.username}?page=1`} />
   }
 
-  if (activePage > numberOfPages) {
+  if (0 < numberOfPages && numberOfPages < activePage) {
     return <Redirect to={`/${params.username}?page=${numberOfPages}`} />
   }
 

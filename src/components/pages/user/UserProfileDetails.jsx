@@ -6,6 +6,7 @@ import { Button } from 'styles'
 
 const UserProfileDetails = ({ profile }) => {
   const history = useHistory()
+  const displayName = profile.name ? profile.name : profile.username
 
   const onReset = () => {
     history.push(`/`)
@@ -25,9 +26,12 @@ const UserProfileDetails = ({ profile }) => {
         <Avatar src={profile.avatarUrl} />
 
         <DetailsContainer>
-          <Name>{profile.name}</Name>
+          <Name>{displayName}</Name>
+
           <RepositoriesCount>
-            {profile.publicReposCount} respositories
+            {profile.publicReposCount
+              ? `${profile.publicReposCount} respositories`
+              : 'No public repositories'}
           </RepositoriesCount>
         </DetailsContainer>
 

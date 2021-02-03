@@ -23,6 +23,10 @@ const UserReposList = ({ activePage, numberOfPages, goToPage, repos }) => {
     goToPage(page)
   }
 
+  if (!repos.length) {
+    return null
+  }
+
   return (
     <Container>
       <Title>Repos</Title>
