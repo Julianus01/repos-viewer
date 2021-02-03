@@ -24,10 +24,10 @@ In order to see and execute written tests, execute the following command
 
 ## Packages used
 
-- [Redux](https://github.com/reduxjs/redux) for global state management, design pattern being that of [Ducks](https://github.com/erikras/ducks-modular-redux) ( redux ducks -> reducks ). Picked ducks because of readability, low cognitive stress because of dealing with a single file instead of 100 and the overall boilerplate that evertbody cries about, is 'reduced' or the developer perceives it reduced, which is a great improvement.
-- [Redux Thunk](https://github.com/reduxjs/redux-thunk) for global state side effects. Compared to [Redux Saga's](https://redux-saga.js.org/) complex and high learning curve, Thunks offer 80% of use with 20% of the effort and complexity.
-- [Axios](https://www.npmjs.com/package/axios) for http calls, middlewares, mapped responses and networking in general.
-- [Styled Components](https://github.com/styled-components/styled-components) for styling and css, a component based library which complents the base nature of React. Conditional rendering, theming and custom style guides can be implemented with ease of use and readability. One of my favorites.
+- [Redux](https://github.com/reduxjs/redux) for global state management, design pattern being that of [Ducks](https://github.com/erikras/ducks-modular-redux) ( redux ducks -> reducks ). Picked ducks because of readability and low cognitive stress when dealing with a single file instead of 100. The overall boilerplate that everybody cries about is 'reduced', or the developer perceives it reduced, which is a great improvement.
+- [Redux Thunk](https://github.com/reduxjs/redux-thunk) for global state side effects. Compared to [Redux Saga's](https://redux-saga.js.org/) complexity and high learning curve, Thunks offer 80% of use with 20% of the effort and complexity.
+- [Axios](https://github.com/axios/axios) for http calls, middlewares, mapped responses and networking in general.
+- [Styled Components](https://github.com/styled-components/styled-components) for styling and css, a component based library which compliments the base nature of React. Conditional rendering, theming and custom style guides can be implemented with ease of use and readability. One of my favorites.
 - [React Use](https://github.com/streamich/react-use) is a collection of day to day hooks that make life better. From simple things like useClickAway and useWindowSize, to more edge case hooks like useIsomorphicLayoutEffect and useCustomCompareEffect.
 - [React Router Dom](https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom), your basic routing library which does the job beautifully
 - [Cypress](https://github.com/cypress-io/cypress) for End to End testing. Very nice tool.
