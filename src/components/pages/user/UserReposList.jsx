@@ -1,56 +1,28 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components/macro'
 import { Button } from 'styles'
-
-const PAGE_SIZE = 10
+import { CONSTANTS } from 'utils/Constants'
+import Repo from './Repo'
 
 const generateConsecutiveNumberArray = (limit) => {
   return [...Array(limit).keys()].map((value) => value + 1)
 }
 
-const Repo = ({ index, repo }) => {
-  return (
-    <RepoContainer>
-      <RepoName>
-        {index + 1} {repo.name}
-      </RepoName>
-    </RepoContainer>
+const usePageData = (reposCount) => {
+  const numberOfPages = useMemo(
+    () => Math.floor(reposCount / CONSTANTS.PAGE_SIZE),
+    [reposCount]
   )
+
+  const pages = useMemo(() => generateConsecutiveNumberArray(numberOfPages), [
+    numberOfPages,
+  ])
+
+  return { numberOfPages, pages }
 }
 
-const RepoContainer = styled.div`
-  padding: 2rem 3rem;
-  background: #f8f8f8;
-  border-radius: ${({ theme }) => theme.borderRadius.small};
-  transition: box-shadow 0.15s ease-in-out, border-color 0.15s ease-in-out;
-  border: 1px solid transparent;
-  cursor: pointer;
-
-  &:not(:last-child) {
-    margin-bottom: 2rem;
-  }
-
-  :hover {
-    box-shadow: ${({ theme }) => theme.shadow.light};
-    background: ${({ theme }) => theme.color.background.base};
-    border-color: ${({ theme }) => theme.color.border};
-  }
-`
-
-const RepoName = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.body};
-  color: ${({ theme }) => theme.color.text.body};
-`
-
 const UserReposList = ({ publicReposCount, repos }) => {
-  console.log(publicReposCount)
-
-  const numberOfPages = useMemo(
-    () => Math.floor(publicReposCount / PAGE_SIZE),
-    [publicReposCount]
-  )
-
-  const pages = generateConsecutiveNumberArray(numberOfPages)
+  const { numberOfPages, pages } = usePageData(publicReposCount)
 
   return (
     <Container>

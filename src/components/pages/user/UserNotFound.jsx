@@ -65,7 +65,7 @@ const BackgroundSquare = styled.div`
   position: absolute;
   width: 45rem;
   height: 45rem;
-  background: #f8f8f8;
+  background: ${({ theme }) => theme.color.hover};
   transform: rotate(60deg);
   top: 4rem;
   z-index: -1;

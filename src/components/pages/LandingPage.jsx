@@ -20,7 +20,7 @@ const LandingPage = () => {
   }
 
   const search = () => {
-    history.push(`/${username.trim()}`)
+    history.push(`/${username.trim()}?page=1`)
   }
 
   return (
@@ -43,8 +43,12 @@ const LandingPage = () => {
             placeholder='Github username...'
           />
 
-          <SearchButton onClick={search} disabled={!username.length}>
-            <ArrowRight />
+          <SearchButton
+            onClick={search}
+            disabled={!username.length}
+            rightIcon={<ArrowRight size={16} />}
+          >
+            Go
           </SearchButton>
         </FormContainer>
 
@@ -100,7 +104,7 @@ const BackgroundSquare = styled.div`
   position: absolute;
   width: 45rem;
   height: 45rem;
-  background: #f8f8f8;
+  background: ${({ theme }) => theme.color.hover};
   transform: rotate(60deg);
   top: 4rem;
   z-index: -1;

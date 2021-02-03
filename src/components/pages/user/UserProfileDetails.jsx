@@ -11,6 +11,10 @@ const UserProfileDetails = ({ profile }) => {
     history.push(`/`)
   }
 
+  const viewProfile = () => {
+    window.open(profile.htmlUrl, '_blank')
+  }
+
   return (
     <Container>
       <BackButton onClick={onReset} />
@@ -28,8 +32,8 @@ const UserProfileDetails = ({ profile }) => {
         </DetailsContainer>
 
         <ActionsContainer>
-          <Button>
-            <Link size={18} />
+          <Button onClick={viewProfile} rightIcon={<Link size={16} />}>
+            View profile
           </Button>
         </ActionsContainer>
       </Content>
@@ -60,7 +64,7 @@ const Content = styled.div`
 const Avatar = styled.img`
   width: 12rem;
   height: 12rem;
-  background: #f8f8f8;
+  background: ${({ theme }) => theme.color.hover};
   border-radius: ${({ theme }) => theme.borderRadius.small};
   box-shadow: ${({ theme }) => theme.shadow.medium};
   object-fit: cover;
@@ -90,7 +94,7 @@ const Rectangle = styled.div`
   position: absolute;
   width: 15rem;
   height: 15rem;
-  background: #f8f8f8;
+  background: ${({ theme }) => theme.color.hover};
   transform: rotate(60deg);
   top: 0rem;
   left: 4rem;

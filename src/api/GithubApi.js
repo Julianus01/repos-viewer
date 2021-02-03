@@ -1,6 +1,5 @@
 import axios from 'axios'
-
-const PER_PAGE = 10
+import { CONSTANTS } from 'utils/Constants'
 
 const PROFILE = {
   username: 'facebook',
@@ -243,7 +242,7 @@ const getUserProfile = async (username) => {
 const getReposForUser = async (username, page = 1) => {
   await wait(1000)
   return REPOS
-  // const repos = await axios.get(`/users/${username}/repos?per_page=${PER_PAGE}&page=${page}`)
+  // const repos = await axios.get(`/users/${username}/repos?per_page=${CONSTANTS.PAGE_SIZE}&page=${page}`)
 
   // return repos.map((repo) => ({
   //   id: repo.id,

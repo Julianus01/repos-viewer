@@ -1,8 +1,4 @@
 const THEME = {
-  spacing: {
-    unit: '8px',
-  },
-
   fontWeight: {
     light: 300,
     regular: 400,
@@ -36,8 +32,6 @@ const THEME = {
       '0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05)',
   },
 
-  backdropFilter: 'saturate(180%) blur(20px)',
-
   color: {
     accent: 'rgb(0, 122, 255)',
     backgroundAccent: '#F0F7FF',
@@ -56,9 +50,6 @@ const THEME = {
       base: 'white',
       popup: 'white',
       light: '#B5B8B9',
-      modal: 'white',
-      modal_mask: 'rgba(255, 255, 255, 0.65)',
-      blur: 'rgba(255, 255, 255, 0.72)',
     },
 
     extremeOpposite: 'black',
