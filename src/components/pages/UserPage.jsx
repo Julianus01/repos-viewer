@@ -12,21 +12,21 @@ const UserPage = () => {
   const dispatch = useDispatch()
   const userData = useSelector((state) => state.user)
   const params = useParams()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
-    const get = async () => {
+    const getUserProfileAndRepos = async () => {
       try {
-        // setLoading(true)
-        // await dispatch(userThunks.getUserProfileAndRepos(params.username))
-        // setLoading(false)
+        setLoading(true)
+        await dispatch(userThunks.getUserProfileAndRepos(params.username))
+        setLoading(false)
       } catch (_) {
         setNotFound(true)
       }
     }
 
-    get()
+    getUserProfileAndRepos()
   }, [dispatch, params.username])
 
   if (notFound) {
@@ -47,7 +47,10 @@ const UserPage = () => {
         <UserProfileDetails profile={userData.profile} />
       </Header>
 
-      <UserReposList repos={userData.repos} />
+      <UserReposList
+        publicReposCount={userData.profile.publicReposCount}
+        repos={userData.repos}
+      />
     </Container>
   )
 }
