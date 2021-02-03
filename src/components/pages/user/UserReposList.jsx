@@ -28,8 +28,8 @@ const UserReposList = ({ activePage, numberOfPages, goToPage, repos }) => {
       <Title>Repos</Title>
 
       {repos.map((repo, index) => {
-        const number = activePage * 10 - 10 + index
-        return <Repo key={repo.id} number={number} repo={repo} />
+        const orderNumber = activePage * 10 - 10 + index
+        return <Repo key={repo.id} orderNumber={orderNumber} repo={repo} />
       })}
 
       {numberOfPages > 1 && (
